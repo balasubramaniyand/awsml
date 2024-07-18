@@ -1,0 +1,90 @@
+root@opexwise-ml:/opt/kafka/sentiment_analysis/sentiment_analysis# ls
+Dockerfile  README.md  __pycache__  app.py  docker-compose.yml  helper.py  requirements.txt  sentiment_code.py  static  testnew.csv  verify_params.py
+root@opexwise-ml:/opt/kafka/sentiment_analysis/sentiment_analysis# vi Dockerfile
+root@opexwise-ml:/opt/kafka/sentiment_analysis/sentiment_analysis# docker build -t iopexlabs/mlkafka:kafka_sentiment_analysis.3.1 .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  143.4kB
+Step 1/14 : FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
+ ---> ee2ed945a83c
+Step 2/14 : RUN apt-get update && apt-get install -y --no-install-recommends gnupg2 curl ca-certificates &&     curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - &&     echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list &&     echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list &&     apt-get purge --autoremove -y curl && rm -rf /var/lib/apt/lists/*
+ ---> Using cache
+ ---> 67ac7a9c0a4b
+Step 3/14 : ENV CUDA_VERSION 10.2.89
+ ---> Using cache
+ ---> 7ad5e7c0216f
+Step 4/14 : ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
+ ---> Using cache
+ ---> 1efeccb1c4a0
+Step 5/14 : RUN apt-get update && apt-get install -y --no-install-recommends         cuda-cudart-$CUDA_PKG_VERSION cuda-compat-10-2 && ln -s cuda-10.2 /usr/local/cuda &&     rm -rf /var/lib/apt/lists/*
+ ---> Running in 0bc7384338ef
+Get:1 http://deb.debian.org/debian bookworm InRelease [151 kB]
+Get:2 http://deb.debian.org/debian bookworm-updates InRelease [55.4 kB]
+Get:3 http://deb.debian.org/debian-security bookworm-security InRelease [48.0 kB]
+Get:4 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64  InRelease [1581 B]
+Get:5 http://deb.debian.org/debian bookworm/main amd64 Packages [8788 kB]
+Get:6 http://deb.debian.org/debian bookworm-updates/main amd64 Packages [13.8 kB]
+Get:7 http://deb.debian.org/debian-security bookworm-security/main amd64 Packages [169 kB]
+Err:4 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64  InRelease
+  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY A4B469963BF863CC
+Ign:8 https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64  InRelease
+Get:9 https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64  Release [564 B]
+Get:10 https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64  Release.gpg [833 B]
+Get:11 https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64  Packages [73.8 kB]
+Reading package lists...
+W: GPG error: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64  InRelease: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY A4B469963BF863CC
+E: The repository 'https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64  InRelease' is not signed.
+W: https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/Release.gpg: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details.
+The command '/bin/sh -c apt-get update && apt-get install -y --no-install-recommends         cuda-cudart-$CUDA_PKG_VERSION cuda-compat-10-2 && ln -s cuda-10.2 /usr/local/cuda &&     rm -rf /var/lib/apt/lists/*' returned a non-zero code: 100
+root@opexwise-ml:/opt/kafka/sentiment_analysis/sentiment_analysis# vi Dockerfile
+root@opexwise-ml:/opt/kafka/sentiment_analysis/sentiment_analysis# cat Dockerfile
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+gnupg2 curl ca-certificates && \
+    curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
+    echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/cuda.list && \
+    echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list && \
+    apt-get purge --autoremove -y curl && \
+rm -rf /var/lib/apt/lists/*
+
+ENV CUDA_VERSION 10.2.89
+
+ENV CUDA_PKG_VERSION 10-2=$CUDA_VERSION-1
+
+# For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        cuda-cudart-$CUDA_PKG_VERSION \
+cuda-compat-10-2 && \
+ln -s cuda-10.2 /usr/local/cuda && \
+    rm -rf /var/lib/apt/lists/*
+
+# Required for nvidia-docker v1
+RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
+    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
+
+ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
+ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+ENV NVIDIA_REQUIRE_CUDA "cuda>=10.2 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411 brand=tesla,driver>=418,driver<419"
+
+COPY ./requirements.txt /app/requirements.txt
+
+RUN pip install -r /app/requirements.txt
+
+# RUN python -m nltk.downloader wordnet
+# RUN python -m nltk.downloader stopwords
+
+# RUN apt-get update && apt-get install -y software-properties-common && apt-get install -y python3-pip && apt-get install -y python-enchant
+
+COPY . /app
+
+
+
+
+root@opexwise-ml:/opt/kafka/sentiment_analysis/sentiment_analysis#
