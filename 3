@@ -1,0 +1,216 @@
+root@opexwise-ml:/opt/kafka/kafka_supervised_classification# docker logs -f
+"docker logs" requires exactly 1 argument.
+See 'docker logs --help'.
+
+Usage:  docker logs [OPTIONS] CONTAINER
+
+Fetch the logs of a container
+root@opexwise-ml:/opt/kafka/kafka_supervised_classification# docker logs -f cd6ab9aca06f
+cp: cannot stat '/opt/background.conf': No such file or directory
+Starting supervisor: supervisord.
+ * Starting periodic command scheduler cron
+   ...done.
+Traceback (most recent call last):
+  File "manage.py", line 21, in <module>
+    main()
+  File "manage.py", line 17, in main
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/management/__init__.py", line 381, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/management/__init__.py", line 325, in execute
+    settings.INSTALLED_APPS
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 79, in __getattr__
+    self._setup(name)
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 66, in _setup
+    self._wrapped = Settings(settings_module)
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 157, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/usr/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/var/opt/classification/settings.py", line 255, in <module>
+    PRODUCER=KafkaProducer(bootstrap_servers=[KAFKA_SERVER_URL],
+  File "/usr/local/lib/python3.8/dist-packages/kafka/producer/kafka.py", line 381, in __init__
+    client = KafkaClient(metrics=self._metrics, metric_group_prefix='producer',
+  File "/usr/local/lib/python3.8/dist-packages/kafka/client_async.py", line 244, in __init__
+    self.config['api_version'] = self.check_version(timeout=check_timeout)
+  File "/usr/local/lib/python3.8/dist-packages/kafka/client_async.py", line 900, in check_version
+    raise Errors.NoBrokersAvailable()
+kafka.errors.NoBrokersAvailable: NoBrokersAvailable
+Traceback (most recent call last):
+  File "manage.py", line 21, in <module>
+    main()
+  File "manage.py", line 17, in main
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/management/__init__.py", line 381, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/management/__init__.py", line 325, in execute
+    settings.INSTALLED_APPS
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 79, in __getattr__
+    self._setup(name)
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 66, in _setup
+    self._wrapped = Settings(settings_module)
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 157, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/usr/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/var/opt/classification/settings.py", line 255, in <module>
+    PRODUCER=KafkaProducer(bootstrap_servers=[KAFKA_SERVER_URL],
+  File "/usr/local/lib/python3.8/dist-packages/kafka/producer/kafka.py", line 381, in __init__
+    client = KafkaClient(metrics=self._metrics, metric_group_prefix='producer',
+  File "/usr/local/lib/python3.8/dist-packages/kafka/client_async.py", line 244, in __init__
+    self.config['api_version'] = self.check_version(timeout=check_timeout)
+  File "/usr/local/lib/python3.8/dist-packages/kafka/client_async.py", line 900, in check_version
+    raise Errors.NoBrokersAvailable()
+kafka.errors.NoBrokersAvailable: NoBrokersAvailable
+ * Restarting nginx nginx
+cp: cannot stat '/opt/background.conf': No such file or directory
+Starting supervisor: supervisord.
+ * Starting periodic command scheduler cron
+   ...done.
+Traceback (most recent call last):
+  File "manage.py", line 21, in <module>
+    main()
+  File "manage.py", line 17, in main
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/management/__init__.py", line 381, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/management/__init__.py", line 325, in execute
+    settings.INSTALLED_APPS
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 79, in __getattr__
+    self._setup(name)
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 66, in _setup
+    self._wrapped = Settings(settings_module)
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 157, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/usr/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/var/opt/classification/settings.py", line 255, in <module>
+    PRODUCER=KafkaProducer(bootstrap_servers=[KAFKA_SERVER_URL],
+  File "/usr/local/lib/python3.8/dist-packages/kafka/producer/kafka.py", line 381, in __init__
+    client = KafkaClient(metrics=self._metrics, metric_group_prefix='producer',
+  File "/usr/local/lib/python3.8/dist-packages/kafka/client_async.py", line 244, in __init__
+    self.config['api_version'] = self.check_version(timeout=check_timeout)
+  File "/usr/local/lib/python3.8/dist-packages/kafka/client_async.py", line 900, in check_version
+    raise Errors.NoBrokersAvailable()
+kafka.errors.NoBrokersAvailable: NoBrokersAvailable
+Traceback (most recent call last):
+  File "manage.py", line 21, in <module>
+    main()
+  File "manage.py", line 17, in main
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/management/__init__.py", line 381, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/management/__init__.py", line 325, in execute
+    settings.INSTALLED_APPS
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 79, in __getattr__
+    self._setup(name)
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 66, in _setup
+    self._wrapped = Settings(settings_module)
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 157, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/usr/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/var/opt/classification/settings.py", line 255, in <module>
+    PRODUCER=KafkaProducer(bootstrap_servers=[KAFKA_SERVER_URL],
+  File "/usr/local/lib/python3.8/dist-packages/kafka/producer/kafka.py", line 381, in __init__
+    client = KafkaClient(metrics=self._metrics, metric_group_prefix='producer',
+  File "/usr/local/lib/python3.8/dist-packages/kafka/client_async.py", line 244, in __init__
+    self.config['api_version'] = self.check_version(timeout=check_timeout)
+  File "/usr/local/lib/python3.8/dist-packages/kafka/client_async.py", line 900, in check_version
+    raise Errors.NoBrokersAvailable()
+kafka.errors.NoBrokersAvailable: NoBrokersAvailable
+ * Restarting nginx nginx
+cp: cannot stat '/opt/background.conf': No such file or directory
+Starting supervisor: supervisord.
+ * Starting periodic command scheduler cron
+   ...done.
+Traceback (most recent call last):
+  File "manage.py", line 21, in <module>
+    main()
+  File "manage.py", line 17, in main
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/management/__init__.py", line 381, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/management/__init__.py", line 325, in execute
+    settings.INSTALLED_APPS
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 79, in __getattr__
+    self._setup(name)
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 66, in _setup
+    self._wrapped = Settings(settings_module)
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 157, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/usr/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/var/opt/classification/settings.py", line 255, in <module>
+    PRODUCER=KafkaProducer(bootstrap_servers=[KAFKA_SERVER_URL],
+  File "/usr/local/lib/python3.8/dist-packages/kafka/producer/kafka.py", line 381, in __init__
+    client = KafkaClient(metrics=self._metrics, metric_group_prefix='producer',
+  File "/usr/local/lib/python3.8/dist-packages/kafka/client_async.py", line 244, in __init__
+    self.config['api_version'] = self.check_version(timeout=check_timeout)
+  File "/usr/local/lib/python3.8/dist-packages/kafka/client_async.py", line 900, in check_version
+    raise Errors.NoBrokersAvailable()
+kafka.errors.NoBrokersAvailable: NoBrokersAvailable
+Traceback (most recent call last):
+  File "manage.py", line 21, in <module>
+    main()
+  File "manage.py", line 17, in main
+    execute_from_command_line(sys.argv)
+  File "/usr/local/lib/python3.8/dist-packages/django/core/management/__init__.py", line 381, in execute_from_command_line
+    utility.execute()
+  File "/usr/local/lib/python3.8/dist-packages/django/core/management/__init__.py", line 325, in execute
+    settings.INSTALLED_APPS
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 79, in __getattr__
+    self._setup(name)
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 66, in _setup
+    self._wrapped = Settings(settings_module)
+  File "/usr/local/lib/python3.8/dist-packages/django/conf/__init__.py", line 157, in __init__
+    mod = importlib.import_module(self.SETTINGS_MODULE)
+  File "/usr/lib/python3.8/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1014, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 991, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 975, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 671, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/var/opt/classification/settings.py", line 255, in <module>
+    PRODUCER=KafkaProducer(bootstrap_servers=[KAFKA_SERVER_URL],
+  File "/usr/local/lib/python3.8/dist-packages/kafka/producer/kafka.py", line 381, in __init__
+    client = KafkaClient(metrics=self._metrics, metric_group_prefix='producer',
+  File "/usr/local/lib/python3.8/dist-packages/kafka/client_async.py", line 244, in __init__
+    self.config['api_version'] = self.check_version(timeout=check_timeout)
+  File "/usr/local/lib/python3.8/dist-packages/kafka/client_async.py", line 900, in check_version
+    raise Errors.NoBrokersAvailable()
+kafka.errors.NoBrokersAvailable: NoBrokersAvailable
+ * Restarting nginx nginx
+
