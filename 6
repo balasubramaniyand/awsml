@@ -1,0 +1,39 @@
+root@opexwise-ml:/opt/kafka/kafka_intent_entity_api# docker-compose down
+Stopping kafka_intent_entity_api_kafka_ner_1 ... done
+Removing kafka_intent_entity_api_kafka_ner_1 ... done
+Removing network kafka_intent_entity_api_default
+root@opexwise-ml:/opt/kafka/kafka_intent_entity_api# docker-compose up -d
+Creating network "kafka_intent_entity_api_default" with the default driver
+Creating kafka_intent_entity_api_kafka_ner_1 ... error
+
+ERROR: for kafka_intent_entity_api_kafka_ner_1  Cannot start service kafka_ner: could not select device driver "" with capabilities: [[gpu]]
+
+ERROR: for kafka_ner  Cannot start service kafka_ner: could not select device driver "" with capabilities: [[gpu]]
+ERROR: Encountered errors while bringing up the project.
+root@opexwise-ml:/opt/kafka/kafka_intent_entity_api# vi docker-compose.yml
+root@opexwise-ml:/opt/kafka/kafka_intent_entity_api# docker-compose up
+Starting kafka_intent_entity_api_kafka_ner_1 ... error
+
+ERROR: for kafka_intent_entity_api_kafka_ner_1  Cannot start service kafka_ner: could not select device driver "" with capabilities: [[gpu]]
+
+ERROR: for kafka_ner  Cannot start service kafka_ner: could not select device driver "" with capabilities: [[gpu]]
+ERROR: Encountered errors while bringing up the project.
+root@opexwise-ml:/opt/kafka/kafka_intent_entity_api# cat docker-compose.yml
+version: "3"
+services:
+  kafka_ner:
+    image: belgin121/kafka_entity:0.3
+    ports:
+      - "8055:8006"
+    volumes:
+      - "./logs:/var/opt/logs"
+    environment:
+       - SERVER_NAME=kafka_test
+       - HOST_ADDRESS=3.109.160.55:9092
+    deploy:
+       resources:
+          reservations:
+            devices:
+              - capabilities: [gpu]
+
+root@opexwise-ml:/opt/kafka/kafka_intent_entity_api#
