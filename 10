@@ -1,0 +1,40 @@
+attachments_2024_07_10_07_55_34.xlsx  attachments_2024_07_23_06_31_36.xlsx  attachments_2024_07_24_02_06.xlsx
+attachments_2024_07_11_08_16_00.xlsx  attachments_2024_07_23_06_41_56.xlsx  attachments_2024_07_42_02_11_00.xlsx
+attachments_2024_07_11_11_05_15.xlsx  attachments_2024_07_23_06_56_26.xlsx  data_tranfer.sh
+attachments_2024_07_22_07_49_25.xlsx  attachments_2024_07_23_07_46_05.xlsx
+root@opexwise-ui-demo:/var/opt/opexwise/app/media/datapipe_attachments# vi data_tranfer.sh
+root@opexwise-ui-demo:/var/opt/opexwise/app/media/datapipe_attachments# sh -x data_tranfer.sh
++ SOURCE_DIR=/var/opt/opexwise/app/media/datapipe_attachments
++ DEST_DIR=/var/opt/airflow/manual_uploaded_files
+data_tranfer.sh: 31: Syntax error: Unterminated quoted string
+root@opexwise-ui-demo:/var/opt/opexwise/app/media/datapipe_attachments# cat data_tranfer.sh
+#!/bin/bash
+
+# Source and destination directories
+SOURCE_DIR="/var/opt/opexwise/app/media/datapipe_attachments"
+DEST_DIR="/var/opt/airflow/manual_uploaded_files"
+
+# Get the current date and time in the specified format
+CURRENT_DATETIME=$(date '+%Y_%m_%d_%H_%M'_%S')
+
+# Filename pattern
+FILENAME_PATTERN="attachments_${CURRENT_DATETIME}.xlsx"
+
+# Find all files that match the pattern
+for FILE in ${SOURCE_DIR}/${FILENAME_PATTERN}; do
+  # Check if the file exists to avoid errors
+  if [ -f "$FILE" ]; then
+    FILENAME=$(basename "$FILE")
+    cp "$FILE" "${DEST_DIR}/$FILENAME"
+
+    # Verify if the copy was successful
+    if [ $? -eq 0 ]; then
+      echo "File $FILENAME copied successfully."
+    else
+      echo "Failed to copy the file $FILENAME."
+    fi
+  else
+    echo "No file found matching the pattern $FILENAME_PATTERN."
+fi
+done
+
