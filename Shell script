@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Source and destination directories
+SOURCE_DIR="/var/opt/opexwise/app/logs/datapipeline"
+DEST_DIR="/var/opt/airflow/manual upload"
+
+# Get the current date and time in the specified format
+CURRENT_DATETIME=$(date '+%Y_%m_%d_%H_%M')
+
+# Filename pattern
+FILENAME_PATTERN="attachments_${CURRENT_DATETIME}.xlsx"
+
+# Find all files that match the pattern
+FILES=(${SOURCE_DIR}/${FILENAME_PATTERN})
+
+# Loop through the files and copy each one
+for FILE in "${FILES[@]}"; do
+  FILENAME=$(basename "$FILE")
+  cp "$FILE" "${DEST_DIR}/$FILENAME"
+
+  # Verify if the copy was successful
+  if [ $? -eq 0 ]; then
+    echo "File $FILENAME copied successfully."
+  else
+    echo "Failed to copy the file $FILENAME."
+  fi
+done
