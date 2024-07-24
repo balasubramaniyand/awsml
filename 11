@@ -1,0 +1,41 @@
+root@opexwise-ui-demo:/var/opt/opexwise/app/media/datapipe_attachments# ll
+total 328
+drwxrwxrwx  2 root root  4096 Jul 24 02:25 ./
+drwxrwxrwx 11 root root  4096 Jul 18 14:55 ../
+-rw-r--r--  1 root root 12288 Jul 24 02:17 .data_tranfer.sh.swp
+-rw-r--r--  1 root root 11506 Jul  5 10:40 attachments_2024_07_05_10_40_38.xlsx
+-rw-r--r--  1 root root 11506 Jul  5 12:04 attachments_2024_07_05_12_04_12.xlsx
+-rw-r--r--  1 root root 15789 Jul  8 09:59 attachments_2024_07_08_09_59_19.xlsx
+-rw-r--r--  1 root root 12053 Jul 10 06:22 attachments_2024_07_10_06_22_45.xlsx
+-rw-r--r--  1 root root  6424 Jul 10 06:25 attachments_2024_07_10_06_25_38.csv
+-rw-r--r--  1 root root 12053 Jul 10 07:55 attachments_2024_07_10_07_55_34.xlsx
+-rw-r--r--  1 root root 15789 Jul 11 08:16 attachments_2024_07_11_08_16_00.xlsx
+-rw-r--r--  1 root root 12206 Jul 11 11:05 attachments_2024_07_11_11_05_15.xlsx
+-rw-r--r--  1 root root 11506 Jul 22 08:08 attachments_2024_07_22_08_08_19.xlsx
+-rw-r--r--  1 root root 11506 Jul 22 09:51 attachments_2024_07_22_09_51_36.xlsx
+-rw-r--r--  1 root root 11506 Jul 22 13:15 attachments_2024_07_22_13_15_31.xlsx
+-rw-r--r--  1 root root 11506 Jul 22 13:44 attachments_2024_07_22_13_44_29.xlsx
+-rw-r--r--  1 root root 11506 Jul 22 14:15 attachments_2024_07_22_14_15_46.xlsx
+-rw-r--r--  1 root root 11506 Jul 22 07:49 attachments_2024_07_22_24_24_00.xlsx
+-rw-r--r--  1 root root 11506 Jul 23 06:31 attachments_2024_07_23_06_31_36.xlsx
+-rw-r--r--  1 root root 11506 Jul 23 06:41 attachments_2024_07_23_06_41_56.xlsx
+-rw-r--r--  1 root root 11506 Jul 23 06:56 attachments_2024_07_23_06_56_26.xlsx
+-rw-r--r--  1 root root 11506 Jul 23 07:46 attachments_2024_07_23_07_46_05.xlsx
+-rw-r--r--  1 root root 11506 Jul 23 08:26 attachments_2024_07_23_08_26_20.xlsx
+-rw-r--r--  1 root root 11506 Jul 23 09:48 attachments_2024_07_23_09_48_16.xlsx
+-rw-r--r--  1 root root 11506 Jul 23 12:18 attachments_2024_07_23_12_18_46.xlsx
+-rw-r--r--  1 root root 11506 Jul 23 13:19 attachments_2024_07_23_13_19_15.xlsx
+-rw-r--r--  1 root root 11506 Jul 23 14:22 attachments_2024_07_23_14_22_42.xlsx
+-rw-r--r--  1 root root 11506 Jul  5 10:13 attachments_2024_07_24_02_06.xlsx
+-rw-r--r--  1 root root 11506 Jul  5 10:32 attachments_2024_07_24_02_26_00.xlsx
+-rwxrwxrwx  1 root root   837 Jul 24 02:21 data_tranfer.sh*
+root@opexwise-ui-demo:/var/opt/opexwise/app/media/datapipe_attachments# sh -x data_tranfer.sh
++ SOURCE_DIR=/var/opt/opexwise/app/media/datapipe_attachments
++ DEST_DIR=/var/opt/airflow/manual_uploaded_files
++ date +%Y_%m_%d_%H_%M_%S
++ CURRENT_DATETIME=2024_07_24_02_27_50
++ FILENAME_PATTERN=attachments_2024_07_24_02_27_50.xlsx
++ [ -f /var/opt/opexwise/app/media/datapipe_attachments/attachments_2024_07_24_02_27_50.xlsx ]
++ echo No file found matching the pattern attachments_2024_07_24_02_27_50.xlsx.
+No file found matching the pattern attachments_2024_07_24_02_27_50.xlsx.
+root@opexwise-ui-demo:/var/opt/opexwise/app/media/datapipe_attachments#
