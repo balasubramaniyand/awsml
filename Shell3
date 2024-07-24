@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Source and destination directories
+SOURCE_DIR="/var/opt/opexwise/app/media/datapipe_attachments"
+DEST_DIR="/var/opt/airflow/manual_uploaded_files"
+
+# Get the current date and time in the specified format
+CURRENT_DATETIME=$(date '+%Y_%m_%d_%H_%M_%S')
+
+# Find files modified in the last minute
+FILES=$(find $SOURCE_DIR -name "attachments_*.xlsx" -mmin -1)
+
+for FILE in $FILES; do
+  # Check if the file exists to avoid errors
+  if [ -f "$FILE" ]; then
+    FILENAME=$(basename "$FILE")
+    cp "$FILE" "${DEST_DIR}/$FILENAME"
+
+    # Verify if the copy was successful
+    if [ $? -eq 0 ]; then
+      echo "File $FILENAME copied successfully."
+    else
+      echo "Failed to copy the file $FILENAME."
+    fi
+  else
+    echo "No file found matching the pattern attachments_*.xlsx."
+  fi
+done
