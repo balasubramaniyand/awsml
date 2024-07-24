@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Source and destination directories
+SOURCE_DIR="/var/opt/opexwise/app/media/datapipe_attachments"
+DEST_DIR="/var/opt/airflow/manual_uploaded_files"
+
+# Filename pattern
+FILENAME_PATTERN="attachments_*.xlsx"
+
+# Find the most recent file that matches the pattern
+LATEST_FILE=$(ls -t ${SOURCE_DIR}/${FILENAME_PATTERN} 2>/dev/null | head -n 1)
+
+# Check if the file exists to avoid errors
+if [ -f "$LATEST_FILE" ]; then
+  FILENAME=$(basename "$LATEST_FILE")
+  cp "$LATEST_FILE" "${DEST_DIR}/$FILENAME"
+
+  # Verify if the copy was successful
+  if [ $? -eq 0 ]; then
+    echo "File $FILENAME copied successfully."
+  else
+    echo "Failed to copy the file $FILENAME."
+  fi
+else
+  echo "No file found matching the pattern $FILENAME_PATTERN."
+fi
