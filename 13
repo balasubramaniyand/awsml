@@ -1,0 +1,14 @@
+#! /bin/bash
+SOURCE_PATH= "/var/opt/opexwise/app/media/datapipe_attachments/"
+DESTINATION_USER="root"
+DESTINATION_HOST="10.10.50.24"
+DESTINATION_PATH="/var/opt/airflow/manual_uploaded_files/"
+
+rsync -avz $SOURECE_PATH
+$DESTINATION_USER@$DESTINATION_HOST:$DESTINATION_PATH
+
+if [ $? -eq 0 ]; then
+    echo "File transfer successfully."
+else    
+   echo "File transfer failed."
+fi
