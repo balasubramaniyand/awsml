@@ -1,0 +1,27 @@
+#!/bin/sh
+
+SOURCE_DIR=/var/opt/opexwise/app/media/datapipe_attachments
+DEST_DIR=/var/opt/airflow/manual_uploaded_files
+
+# Get the current date and time in the format: YYYY_MM_DD_HH_MM_SS
+CURRENT_DATETIME=$(date +%Y_%m_%d_%H_%M_%S)
+
+# Define the filename pattern to match any files created on the current day
+FILENAME_PATTERN="attachments_$(date +%Y_%m_%d)*.xlsx"
+
+echo "Current datetime: $CURRENT_DATETIME"
+echo "Looking for files matching pattern: $FILENAME_PATTERN"
+
+# Find files that match the pattern
+FILES=$(ls $SOURCE_DIR/$FILENAME_PATTERN 2>/dev/null)
+
+# Check if any files were found
+if [ -n "$FILES" ]; then
+  for FILE in $FILES; do
+    echo "Found file: $FILE"
+    # Copy each file to the destination directory
+    cp "$FILE" $DEST_DIR/
+  done
+else
+  echo "No files found matching the pattern $FILENAME_PATTERN."
+fi
