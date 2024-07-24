@@ -1,0 +1,25 @@
+root@opexwise-ui-demo:/var/opt/opexwise/app/media/datapipe_attachments# ls
+attachments_2024_07_05_10_32_33.xlsx  attachments_2024_07_22_07_49_25.xlsx  attachments_2024_07_23_07_46_05.xlsx
+attachments_2024_07_05_10_40_38.xlsx  attachments_2024_07_22_08_08_19.xlsx  attachments_2024_07_23_08_26_20.xlsx
+attachments_2024_07_05_12_04_12.xlsx  attachments_2024_07_22_09_51_36.xlsx  attachments_2024_07_23_09_48_16.xlsx
+attachments_2024_07_08_09_59_19.xlsx  attachments_2024_07_22_13_15_31.xlsx  attachments_2024_07_23_12_18_46.xlsx
+attachments_2024_07_10_06_22_45.xlsx  attachments_2024_07_22_13_44_29.xlsx  attachments_2024_07_23_13_19_15.xlsx
+attachments_2024_07_10_06_25_38.csv   attachments_2024_07_22_14_15_46.xlsx  attachments_2024_07_23_14_22_42.xlsx
+attachments_2024_07_10_07_55_34.xlsx  attachments_2024_07_23_06_31_36.xlsx  attachments_2024_07_24_02_06.xlsx
+attachments_2024_07_11_08_16_00.xlsx  attachments_2024_07_23_06_41_56.xlsx  data_tranfer.sh
+attachments_2024_07_11_11_05_15.xlsx  attachments_2024_07_23_06_56_26.xlsx
+root@opexwise-ui-demo:/var/opt/opexwise/app/media/datapipe_attachments# uptime
+ 02:10:11 up 8 days, 13:25,  2 users,  load average: 1.48, 1.42, 1.45
+root@opexwise-ui-demo:/var/opt/opexwise/app/media/datapipe_attachments# mv attachments_2024_07_05_10_32_33.xlsx attachments_2024_07_42_02_11_00.xlsx
+root@opexwise-ui-demo:/var/opt/opexwise/app/media/datapipe_attachments# uptime
+ 02:11:06 up 8 days, 13:26,  2 users,  load average: 1.35, 1.41, 1.45
+root@opexwise-ui-demo:/var/opt/opexwise/app/media/datapipe_attachments# sh -x data_tranfer.sh                                      + SOURCE_DIR=/var/opt/opexwise/app/media/datapipe_attachments
++ DEST_DIR=/var/opt/airflow/manual_uploaded_files
++ date +%Y_%m_%d_%H_%M
++ CURRENT_DATETIME=2024_07_24_02_11
++ FILENAME_PATTERN=attachments_2024_07_24_02_11.xlsx
++ [ -f /var/opt/opexwise/app/media/datapipe_attachments/attachments_2024_07_24_02_11.xlsx ]
++ echo No file found matching the pattern attachments_2024_07_24_02_11.xlsx.
+No file found matching the pattern attachments_2024_07_24_02_11.xlsx.
+root@opexwise-ui-demo:/var/opt/opexwise/app/media/datapipe_attachments#
+
