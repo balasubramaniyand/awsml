@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Source and destination directories
+SOURCE_DIR="/var/opt/opexwise/app/logs/datapipeline"
+DEST_DIR="/var/opt/airflow/manual upload"
+
+# Get the current date and time in the specified format
+CURRENT_DATETIME=$(date '+%Y-%m-%d-%H:%M')
+
+# Filename
+FILENAME="${CURRENT_DATETIME}.xlsm"
+
+# Copy the file
+cp "${SOURCE_DIR}/${FILENAME}" "${DEST_DIR}/"
+
+# Verify if the copy was successful
+if [ $? -eq 0 ]; then
+  echo "File copied successfully."
+else
+  echo "Failed to copy the file."
+fi
