@@ -1,0 +1,215 @@
+root@ip-172-31-27-88:/var/opt/superset# docker build -t awssuperset:1.0 .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  851.1MB
+Step 1/40 : ARG PY_VER=3.9-slim-bookworm
+Step 2/40 : ARG BUILDPLATFORM=${BUILDPLATFORM:-amd64}
+Step 3/40 : FROM --platform=${BUILDPLATFORM} node:16-slim AS superset-node
+ ---> eb8b8b8a3610
+Step 4/40 : ARG NPM_BUILD_CMD="build"
+ ---> Using cache
+ ---> 364ab315596a
+Step 5/40 : RUN apt-get update -q     && apt-get install -yq --no-install-recommends         python3         make         gcc         g++
+ ---> Using cache
+ ---> 262b33cc89f4
+Step 6/40 : ENV BUILD_CMD=${NPM_BUILD_CMD}     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+ ---> Using cache
+ ---> e9d8fec3c2bb
+Step 7/40 : WORKDIR /app/superset-frontend
+ ---> Using cache
+ ---> 167dce815ceb
+Step 8/40 : COPY ./docker/frontend-mem-nag.sh /
+ ---> Using cache
+ ---> 11df01ad26fd
+Step 9/40 : RUN /frontend-mem-nag.sh
+ ---> Using cache
+ ---> fe6e6996e225
+Step 10/40 : COPY superset-frontend/package*.json ./
+ ---> Using cache
+ ---> bbd3a6376d00
+Step 11/40 : RUN npm ci
+ ---> Using cache
+ ---> b2bf4c9aec90
+Step 12/40 : COPY ./superset-frontend ./
+ ---> Using cache
+ ---> 7feac4694037
+Step 13/40 : RUN npm run ${BUILD_CMD}
+ ---> Running in 9946c70693b6
+
+> superset@0.0.0-dev build
+> cross-env NODE_OPTIONS=--max_old_space_size=8192 NODE_ENV=production BABEL_ENV="${BABEL_ENV:=production}" webpack --mode=production --color
+
+[webpack-cli] Failed to load '/app/superset-frontend/webpack.config.js' config
+[webpack-cli] /app/superset-frontend/node_modules/minimatch/minimatch.js:549
+    var tail = re.slice(pl.reStart + pl.
+
+
+SyntaxError: Unexpected end of input
+    at Object.compileFunction (node:vm:360:18)
+    at wrapSafe (node:internal/modules/cjs/loader:1126:15)
+    at Module._compile (node:internal/modules/cjs/loader:1162:27)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1252:10)
+    at Module.load (node:internal/modules/cjs/loader:1076:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:911:12)
+    at Module.require (node:internal/modules/cjs/loader:1100:19)
+    at require (node:internal/modules/cjs/helpers:119:18)
+    at Object.<anonymous> (/app/superset-frontend/node_modules/fork-ts-checker-webpack-plugin/lib/issue/IssueMatch.js:6:37)
+    at Module._compile (node:internal/modules/cjs/loader:1198:14)
+The command '/bin/sh -c npm run ${BUILD_CMD}' returned a non-zero code: 2
+root@ip-172-31-27-88:/var/opt/superset# ls
+1                   CONTRIBUTING.md  Makefile   UPDATING.md            dockerize.Dockerfile  null_byte.csv   requirements           superset-frontend
+ASF                 Dockerfile       NOTICE     bk-docker-compose.yml  docs                  pyproject.toml  scripts                superset-websocket
+CHANGELOG           INSTALL.md       README.md  data                   helm                  pytest.ini      setup.py               superset_text.yml
+CHANGELOG.md        LICENSE.txt      RELEASING  docker                 home                  pythonpath      superset               tests
+CODE_OF_CONDUCT.md  MANIFEST.in      RESOURCES  docker-compose.yml     lintconf.yaml         redis           superset-embedded-sdk
+root@ip-172-31-27-88:/var/opt/superset# cat Dockerfile
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+######################################################################
+# Node stage to deal with static asset construction
+######################################################################
+ARG PY_VER=3.9-slim-bookworm
+
+# if BUILDPLATFORM is null, set it to 'amd64' (or leave as is otherwise).
+ARG BUILDPLATFORM=${BUILDPLATFORM:-amd64}
+FROM --platform=${BUILDPLATFORM} node:16-slim AS superset-node
+
+ARG NPM_BUILD_CMD="build"
+
+RUN apt-get update -q \
+    && apt-get install -yq --no-install-recommends \
+        python3 \
+        make \
+        gcc \
+        g++
+
+ENV BUILD_CMD=${NPM_BUILD_CMD} \
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+
+# NPM ci first, as to NOT invalidate previous steps except for when package.json changes
+WORKDIR /app/superset-frontend
+
+COPY ./docker/frontend-mem-nag.sh /
+
+RUN /frontend-mem-nag.sh
+
+COPY superset-frontend/package*.json ./
+
+RUN npm ci
+
+COPY ./superset-frontend ./
+
+# This seems to be the most expensive step
+RUN npm run ${BUILD_CMD}
+
+######################################################################
+# Final lean image...
+######################################################################
+FROM python:${PY_VER} AS lean
+
+WORKDIR /app
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    SUPERSET_ENV=production \
+    FLASK_APP="superset.app:create_app()" \
+    PYTHONPATH="/app/pythonpath" \
+    SUPERSET_HOME="/app/superset_home" \
+    SUPERSET_PORT=8088
+
+RUN mkdir -p ${PYTHONPATH} \
+    && useradd --user-group -d ${SUPERSET_HOME} -m --no-log-init --shell /bin/bash superset \
+    && apt-get update -q \
+    && apt-get install -yq --no-install-recommends \
+        build-essential \
+        curl \
+        default-libmysqlclient-dev \
+        libsasl2-dev \
+        libsasl2-modules-gssapi-mit \
+        libpq-dev \
+        libecpg-dev \
+        libldap2-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --chown=superset:superset ./requirements/*.txt  requirements/
+COPY --chown=superset:superset setup.py MANIFEST.in README.md ./
+# setup.py uses the version information in package.json
+COPY --chown=superset:superset superset-frontend/package.json superset-frontend/
+
+RUN mkdir -p superset/static \
+    && touch superset/static/version_info.json \
+    && pip install --no-cache-dir -r requirements/local.txt
+
+COPY --chown=superset:superset --from=superset-node /app/superset/static/assets superset/static/assets
+## Lastly, let's install superset itself
+COPY --chown=superset:superset superset superset
+
+RUN chown -R superset:superset ./* \
+    && pip install --no-cache-dir -e . \
+    && flask fab babel-compile --target superset/translations
+
+COPY --chmod=755 ./docker/run-server.sh /usr/bin/
+USER superset
+
+HEALTHCHECK CMD curl -f "http://localhost:$SUPERSET_PORT/health"
+
+EXPOSE ${SUPERSET_PORT}
+
+CMD ["/usr/bin/run-server.sh"]
+
+######################################################################
+# Dev image...
+######################################################################
+FROM lean AS dev
+ARG GECKODRIVER_VERSION=v0.32.0
+ARG FIREFOX_VERSION=106.0.3
+
+USER root
+
+RUN apt-get update -q \
+    && apt-get install -yq --no-install-recommends \
+        libnss3 \
+        libdbus-glib-1-2 \
+        libgtk-3-0 \
+        libx11-xcb1 \
+        libasound2 \
+        libxtst6 \
+        wget \
+    # Install GeckoDriver WebDriver
+    && wget https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz -O - | tar xfz - -C /usr/local/bin \
+    # Install Firefox
+    && wget https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O - | tar xfj - -C /opt \
+    && ln -s /opt/firefox/firefox /usr/local/bin/firefox \
+    && apt-get autoremove -yqq --purge wget && rm -rf /var/lib/apt/lists/* && apt-get clean
+
+COPY ./requirements/*.txt ./docker/requirements-*.txt/ /app/requirements/
+# Cache everything for dev purposes...
+RUN pip install --no-cache-dir -r /app/requirements/docker.txt \
+    && pip install --no-cache-dir -r /app/requirements/requirements-local.txt || true
+
+USER superset
+######################################################################
+# CI image...
+######################################################################
+FROM lean AS ci
+
+COPY --chown=superset --chmod=755 ./docker/*.sh /app/docker/
+
+CMD ["/app/docker/docker-ci.sh"]
+
+root@ip-172-31-27-88:/var/opt/superset#
