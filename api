@@ -1,4 +1,164 @@
 root@opexwise-ui-demo:/opt/newdeployment/api# docker build -t apiopexwise:1.1 .
+[+] Building 13.7s (18/34)                                                                                          docker:default
+ => [internal] load build definition from Dockerfile                                                                          0.0s
+ => => transferring dockerfile: 2.47kB                                                                                        0.0s
+ => WARN: MaintainerDeprecated: Maintainer instruction is deprecated in favor of using label (line 3)                         0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:20.04                                                               1.5s
+ => [auth] library/ubuntu:pull token for registry-1.docker.io                                                                 0.0s
+ => [internal] load .dockerignore                                                                                             0.0s
+ => => transferring context: 48B                                                                                              0.0s
+ => [ 1/29] FROM docker.io/library/ubuntu:20.04@sha256:0b897358ff6624825fb50d20ffb605ab0eaea77ced0adb8c6a4b756513dec6fc       0.0s
+ => [internal] load build context                                                                                             0.2s
+ => => transferring context: 6.88MB                                                                                           0.2s
+ => CACHED [ 2/29] RUN useradd -ms /bin/bash -u 3333 iopex                                                                    0.0s
+ => CACHED [ 3/29] RUN export DEBIAN_FRONTEND=noninteractive &&     apt-get update && apt-get install -y --no-install-recomm  0.0s
+ => CACHED [ 4/29] RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd  0.0s
+ => CACHED [ 5/29] RUN apt install -y ./wkhtmltox_0.12.6-1.focal_amd64.deb                                                    0.0s
+ => CACHED [ 6/29] RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -                                 0.0s
+ => CACHED [ 7/29] RUN curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-rel  0.0s
+ => CACHED [ 8/29] RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17                                         0.0s
+ => CACHED [ 9/29] RUN apt-get update && apt-get install -y unixodbc-dev                                                      0.0s
+ => CACHED [10/29] RUN apt-get update && apt-get install -y python3-dev libmysqlclient-dev                                    0.0s
+ => CACHED [11/29] WORKDIR /var/opt                                                                                           0.0s
+ => [12/29] COPY . /var/opt                                                                                                   0.2s
+ => ERROR [13/29] RUN python3 -m pip install --upgrade pip && pip install -r requirements.txt                                11.8s
+------
+ > [13/29] RUN python3 -m pip install --upgrade pip && pip install -r requirements.txt:
+1.786 Collecting pip
+1.805   Downloading pip-24.1.2-py3-none-any.whl (1.8 MB)
+1.950 Installing collected packages: pip
+1.950   Attempting uninstall: pip
+1.950     Found existing installation: pip 20.0.2
+1.951     Not uninstalling pip at /usr/lib/python3/dist-packages, outside environment /usr
+1.951     Can't uninstall 'pip'. No files were found to uninstall.
+2.946 Successfully installed pip-24.1.2
+3.416 Collecting asgiref==3.3.4 (from -r requirements.txt (line 1))
+3.432   Downloading asgiref-3.3.4-py3-none-any.whl.metadata (9.1 kB)
+3.477 Collecting certifi==2020.12.5 (from -r requirements.txt (line 2))
+3.484   Downloading certifi-2020.12.5-py2.py3-none-any.whl.metadata (3.0 kB)
+3.655 Collecting cffi==1.14.5 (from -r requirements.txt (line 3))
+3.659   Downloading cffi-1.14.5-cp38-cp38-manylinux1_x86_64.whl.metadata (1.2 kB)
+3.693 Collecting chardet==4.0.0 (from -r requirements.txt (line 4))
+3.699   Downloading chardet-4.0.0-py2.py3-none-any.whl.metadata (3.5 kB)
+3.934 Collecting cryptography==3.4.7 (from -r requirements.txt (line 5))
+3.939   Downloading cryptography-3.4.7-cp36-abi3-manylinux2014_x86_64.whl.metadata (5.1 kB)
+4.159 Collecting datapunt-keycloak-oidc==0.5.1 (from -r requirements.txt (line 6))
+4.362   Downloading datapunt_keycloak_oidc-0.5.1-py3-none-any.whl.metadata (5.3 kB)
+4.477 Collecting Django==3.2 (from -r requirements.txt (line 7))
+4.482   Downloading Django-3.2-py3-none-any.whl.metadata (3.9 kB)
+4.527 Collecting django-cors-headers==3.7.0 (from -r requirements.txt (line 8))
+4.532   Downloading django_cors_headers-3.7.0-py3-none-any.whl.metadata (15 kB)
+4.593 Collecting djangorestframework==3.12.4 (from -r requirements.txt (line 9))
+4.600   Downloading djangorestframework-3.12.4-py3-none-any.whl.metadata (9.9 kB)
+4.865 Collecting drf-dynamic-fields==0.3.1 (from -r requirements.txt (line 10))
+5.067   Downloading drf_dynamic_fields-0.3.1-py2.py3-none-any.whl.metadata (5.6 kB)
+5.098 Collecting fpdf==1.7.2 (from -r requirements.txt (line 11))
+5.103   Downloading fpdf-1.7.2.tar.gz (39 kB)
+5.117   Preparing metadata (setup.py): started
+5.439   Preparing metadata (setup.py): finished with status 'done'
+5.472 Collecting idna==2.10 (from -r requirements.txt (line 12))
+5.477   Downloading idna-2.10-py2.py3-none-any.whl.metadata (9.1 kB)
+5.512 Collecting josepy==1.8.0 (from -r requirements.txt (line 13))
+5.708   Downloading josepy-1.8.0-py2.py3-none-any.whl.metadata (2.0 kB)
+5.982 Collecting mozilla-django-oidc==1.2.4 (from -r requirements.txt (line 14))
+5.988   Downloading mozilla_django_oidc-1.2.4-py2.py3-none-any.whl.metadata (14 kB)
+6.090 Collecting psycopg2-binary==2.8.6 (from -r requirements.txt (line 15))
+6.094   Downloading psycopg2_binary-2.8.6-cp38-cp38-manylinux1_x86_64.whl.metadata (4.4 kB)
+6.134 Collecting pycodestyle==2.7.0 (from -r requirements.txt (line 16))
+6.141   Downloading pycodestyle-2.7.0-py2.py3-none-any.whl.metadata (30 kB)
+6.171 Collecting pycparser==2.20 (from -r requirements.txt (line 17))
+6.176   Downloading pycparser-2.20-py2.py3-none-any.whl.metadata (907 bytes)
+6.213 Collecting pyOpenSSL==20.0.1 (from -r requirements.txt (line 18))
+6.219   Downloading pyOpenSSL-20.0.1-py2.py3-none-any.whl.metadata (6.7 kB)
+6.322 Collecting pytz==2021.1 (from -r requirements.txt (line 19))
+6.329   Downloading pytz-2021.1-py2.py3-none-any.whl.metadata (21 kB)
+6.389 Collecting requests==2.25.1 (from -r requirements.txt (line 20))
+6.396   Downloading requests-2.25.1-py2.py3-none-any.whl.metadata (4.2 kB)
+6.431 Collecting six==1.15.0 (from -r requirements.txt (line 21))
+6.437   Downloading six-1.15.0-py2.py3-none-any.whl.metadata (1.8 kB)
+6.474 Collecting sqlparse==0.4.1 (from -r requirements.txt (line 22))
+6.479   Downloading sqlparse-0.4.1-py3-none-any.whl.metadata (3.4 kB)
+6.548 Collecting urllib3==1.26.4 (from -r requirements.txt (line 23))
+6.555   Downloading urllib3-1.26.4-py2.py3-none-any.whl.metadata (43 kB)
+6.568      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.4/43.4 kB 3.4 MB/s eta 0:00:00
+6.602 Collecting uWSGI==2.0.18 (from -r requirements.txt (line 24))
+6.607   Downloading uwsgi-2.0.18.tar.gz (801 kB)
+6.631      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 801.6/801.6 kB 37.2 MB/s eta 0:00:00
+6.791   Preparing metadata (setup.py): started
+7.020   Preparing metadata (setup.py): finished with status 'done'
+7.245 Collecting nipyapi==0.16.2 (from -r requirements.txt (line 27))
+7.251   Downloading nipyapi-0.16.2-py2.py3-none-any.whl.metadata (20 kB)
+7.492 Collecting numpy==1.21.4 (from -r requirements.txt (line 28))
+7.689   Downloading numpy-1.21.4-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl.metadata (2.1 kB)
+7.855 Collecting pandas (from -r requirements.txt (line 29))
+7.862   Downloading pandas-2.0.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (18 kB)
+7.925 Collecting pdfkit==1.0.0 (from -r requirements.txt (line 30))
+7.930   Downloading pdfkit-1.0.0-py3-none-any.whl.metadata (9.3 kB)
+7.978 Collecting openpyxl (from -r requirements.txt (line 31))
+7.984   Downloading openpyxl-3.1.5-py2.py3-none-any.whl.metadata (2.5 kB)
+8.452 Collecting sqlalchemy (from -r requirements.txt (line 32))
+8.458   Downloading SQLAlchemy-2.0.31-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (9.6 kB)
+8.507 Collecting django-background-tasks (from -r requirements.txt (line 33))
+8.513   Downloading django-background-tasks-1.2.5.tar.gz (20 kB)
+8.530   Preparing metadata (setup.py): started
+8.720   Preparing metadata (setup.py): finished with status 'done'
+8.767 Collecting deepdiff==5.6.0 (from -r requirements.txt (line 34))
+9.013   Downloading deepdiff-5.6.0-py3-none-any.whl.metadata (17 kB)
+9.050 Collecting xlrd==2.0.1 (from -r requirements.txt (line 35))
+9.057   Downloading xlrd-2.0.1-py2.py3-none-any.whl.metadata (3.4 kB)
+9.118 Collecting drf-yasg==1.20.0 (from -r requirements.txt (line 36))
+9.125   Downloading drf_yasg-1.20.0-py2.py3-none-any.whl.metadata (14 kB)
+9.209 Collecting pyodbc==4.0.32 (from -r requirements.txt (line 37))
+9.217   Downloading pyodbc-4.0.32.tar.gz (280 kB)
+9.233      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 280.0/280.0 kB 21.7 MB/s eta 0:00:00
+9.275   Preparing metadata (setup.py): started
+9.436   Preparing metadata (setup.py): finished with status 'done'
+9.613 Collecting snowflake-connector-python==2.7.7 (from -r requirements.txt (line 38))
+9.898   Downloading snowflake_connector_python-2.7.7-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (41 kB)
+9.911      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 41.7/41.7 kB 3.8 MB/s eta 0:00:00
+9.992 Collecting google-api-core==2.8.2 (from -r requirements.txt (line 39))
+9.997   Downloading google_api_core-2.8.2-py3-none-any.whl.metadata (2.1 kB)
+10.17 Collecting google-api-python-client==2.55.0 (from -r requirements.txt (line 40))
+10.18   Downloading google_api_python_client-2.55.0-py2.py3-none-any.whl.metadata (6.5 kB)
+10.29 Collecting google-auth==2.9.1 (from -r requirements.txt (line 41))
+10.54   Downloading google_auth-2.9.1-py2.py3-none-any.whl.metadata (3.8 kB)
+10.58 Collecting google-auth-httplib2==0.1.0 (from -r requirements.txt (line 42))
+10.58   Downloading google_auth_httplib2-0.1.0-py2.py3-none-any.whl.metadata (2.1 kB)
+10.63 Collecting googleapis-common-protos==1.56.4 (from -r requirements.txt (line 43))
+10.64   Downloading googleapis_common_protos-1.56.4-py2.py3-none-any.whl.metadata (1.3 kB)
+10.71 Collecting mysql-connector-python==8.0.30 (from -r requirements.txt (line 44))
+10.72   Downloading mysql_connector_python-8.0.30-cp38-cp38-manylinux1_x86_64.whl.metadata (1.8 kB)
+11.08 Collecting dropbox==11.33.0 (from -r requirements.txt (line 45))
+11.09   Downloading dropbox-11.33.0-py3-none-any.whl.metadata (4.3 kB)
+11.11 WARNING: Ignoring version 11.33.0 of dropbox since it has invalid metadata:
+11.11 Requested dropbox==11.33.0 from https://files.pythonhosted.org/packages/3e/a1/7f0a8eff4a54845f0fd051ce8f0aa61777fdbe26fa99e5c3e283e7cfad80/dropbox-11.33.0-py3-none-any.whl (from -r requirements.txt (line 45)) has invalid metadata: .* suffix can only be used with `==` or `!=` operators
+11.11     stone (>=2.*)
+11.11            ~~~~^
+11.11 Please use pip<24.1 if you need to use this version.
+11.11 ERROR: Ignored the following yanked versions: 10.11.0, 11.3.0, 12.0.0
+11.11 ERROR: Ignored the following versions that require a different python version: 1.25.0 Requires-Python >=3.9; 1.25.0rc1 Requires-Python >=3.9; 1.25.1 Requires-Python >=3.9; 1.25.2 Requires-Python >=3.9; 1.26.0 Requires-Python <3.13,>=3.9; 1.26.0b1 Requires-Python <3.13,>=3.9; 1.26.0rc1 Requires-Python <3.13,>=3.9; 1.26.1 Requires-Python <3.13,>=3.9; 1.26.2 Requires-Python >=3.9; 1.26.3 Requires-Python >=3.9; 1.26.4 Requires-Python >=3.9; 2.0.0 Requires-Python >=3.9; 2.0.0b1 Requires-Python >=3.9; 2.0.0rc1 Requires-Python >=3.9; 2.0.0rc2 Requires-Python >=3.9; 2.0.1 Requires-Python >=3.9; 2.1.0 Requires-Python >=3.9; 2.1.0rc0 Requires-Python >=3.9; 2.1.1 Requires-Python >=3.9; 2.1.2 Requires-Python >=3.9; 2.1.3 Requires-Python >=3.9; 2.1.4 Requires-Python >=3.9; 2.2.0 Requires-Python >=3.9; 2.2.0rc0 Requires-Python >=3.9; 2.2.1 Requires-Python >=3.9; 2.2.2 Requires-Python >=3.9; 5.0 Requires-Python >=3.10; 5.0.1 Requires-Python >=3.10; 5.0.2 Requires-Python >=3.10; 5.0.3 Requires-Python >=3.10; 5.0.4 Requires-Python >=3.10; 5.0.5 Requires-Python >=3.10; 5.0.6 Requires-Python >=3.10; 5.0.7 Requires-Python >=3.10; 5.0a1 Requires-Python >=3.10; 5.0b1 Requires-Python >=3.10; 5.0rc1 Requires-Python >=3.10; 5.1a1 Requires-Python >=3.10; 5.1b1 Requires-Python >=3.10; 5.1rc1 Requires-Python >=3.10
+11.11 ERROR: Could not find a version that satisfies the requirement dropbox==11.33.0 (from versions: 1.1, 1.2, 1.3, 1.4, 1.5.1, 1.6, 2.0.0, 2.1.0, 2.2.0, 3.2, 3.12, 3.13, 3.14, 3.21, 3.22, 3.23, 3.24, 3.25, 3.26, 3.27, 3.28, 3.29, 3.30, 3.31, 3.32, 3.34, 3.36, 3.37, 3.38, 3.39, 3.40, 3.41, 3.42, 4.0, 5.0, 5.0.1, 5.1, 5.2, 5.2.1, 5.2.2, 6.0, 6.1, 6.2, 6.3.0, 6.4.0, 6.5.0, 6.6.0, 6.6.1, 6.6.2, 6.7.0, 6.8.0, 6.9.0, 7.1.0, 7.1.1, 7.2.0, 7.2.1, 7.3.0, 7.3.1, 8.0.0, 8.1.0, 8.2.0, 8.3.1, 8.4.0, 8.4.1, 8.5.0, 8.5.1, 8.6.0, 8.7.0, 8.7.1, 8.8.0, 8.8.1, 8.9.0, 9.0.0, 9.1.0, 9.2.0, 9.3.0, 9.4.0, 9.5.0, 10.0.0, 10.1.0, 10.1.1, 10.1.2, 10.2.0, 10.3.0, 10.3.1, 10.4.1, 10.5.0, 10.6.0, 10.7.0, 10.8.0, 10.9.0, 10.10.0, 11.0.0, 11.1.0, 11.2.0, 11.4.0, 11.4.1, 11.5.0, 11.6.0, 11.7.0, 11.8.0, 11.9.0, 11.10.0, 11.11.0, 11.12.0, 11.13.0, 11.13.1, 11.13.2, 11.13.3, 11.14.0, 11.15.0, 11.16.0, 11.17.0, 11.18.0, 11.19.0, 11.20.0, 11.21.0, 11.22.0, 11.23.0, 11.24.0, 11.25.0, 11.26.0, 11.27.0, 11.28.0, 11.29.0, 11.30.0, 11.31.0, 11.32.0, 11.33.0, 11.34.0, 11.35.0, 11.36.0, 11.36.2, 12.0.1, 12.0.2)
+11.11 ERROR: No matching distribution found for dropbox==11.33.0
+------
+
+ 6 warnings found (use --debug to expand):
+ - MaintainerDeprecated: Maintainer instruction is deprecated in favor of using label (line 3)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 58)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 60)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 61)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 62)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 63)
+Dockerfile:54
+--------------------
+  52 |     COPY . /var/opt
+  53 |
+  54 | >>> RUN python3 -m pip install --upgrade pip && pip install -r requirements.txt
+  55 |
+  56 |     # Change to non-root privilege
+--------------------
+ERROR: failed to solve: process "/bin/sh -c python3 -m pip install --upgrade pip && pip install -r requirements.txt" did not complete successfully: exit code: 1
+root@opexwise-ui-demo:/opt/newdeployment/api# vi requirements.txt
+root@opexwise-ui-demo:/opt/newdeployment/api# docker build -t apiopexwise:1.1 .
 [+] Building 14.6s (17/33)                                                                                          docker:default
  => [internal] load build definition from Dockerfile                                                                          0.0s
  => => transferring dockerfile: 2.47kB                                                                                        0.0s
@@ -228,4 +388,108 @@ Dockerfile:54
   56 |     # Change to non-root privilege
 --------------------
 ERROR: failed to solve: process "/bin/sh -c python3 -m pip install --upgrade pip && pip install -r requirements.txt" did not complete successfully: exit code: 1
+root@opexwise-ui-demo:/opt/newdeployment/api# vi Dockerfile
+root@opexwise-ui-demo:/opt/newdeployment/api# cat Dockerfile
+FROM ubuntu:20.04
+
+MAINTAINER Raghu T  <raghu.t@iopex.com>
+
+# Application env variables
+
+# Add a new user "iopex" with user id 3333
+RUN useradd -ms /bin/bash -u 3333 iopex
+
+# Install dependencies
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    git \
+    vim \
+    wget \
+    curl \
+    python3 \
+    python3-dev \
+    python3-pip \
+    libmysqlclient-dev \
+    python3-pymysql \
+    libleptonica-dev \
+    python3-unidecode \
+    language-pack-en \
+    nginx \
+    python3-setuptools python3-opencv poppler-utils libssl-dev \
+    python python-dev supervisor \
+    gnupg2 \
+    cron \
+    openssl \
+    #wkhtmltopdf \
+    ca-certificates
+
+RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
+
+RUN apt install -y ./wkhtmltox_0.12.6-1.focal_amd64.deb
+
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+
+RUN curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+
+RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17
+
+RUN apt-get update && apt-get install -y unixodbc-dev
+
+RUN apt-get update && apt-get install -y python3-dev libmysqlclient-dev
+
+WORKDIR /var/opt
+
+COPY . /var/opt
+
+RUN python3 -m pip install --upgrade pip && pip install -r requirements.txt
+
+# Change to non-root privilege
+# USER iopex
+ENV MANUAL_EMAIL mail.test2@iopex.com
+
+ENV MANUAL_EMAIL_HOST mail2.iopex.com
+ENV MANUAL_EMAIL_PORT 587
+ENV MANUAL_EMAIL_HOST_USER mail.test2@iopex.com
+ENV MANUAL_EMAIL_HOST_PASSWORD iopex@123
+
+RUN rm -rf /var/opt/media
+
+RUN rm -rf /var/opt/db_data
+
+RUN mkdir media
+
+RUN mkdir /var/opt/media/log
+
+RUN mkdir /var/opt/media/sample
+
+ADD ./media/sample/* /var/opt/media/sample/
+
+RUN mv -f /var/opt/opexwise/settings.py.dist /var/opt/opexwise/settings.py
+
+RUN export LC_ALL="en_US.UTF-8"
+
+RUN mkdir -p /etc/uwsgi/sites
+
+RUN mkdir /etc/uwsgi/vassals
+
+RUN ln -s /var/opt/opexwise.ini /etc/uwsgi/vassals/
+
+RUN mv -f /var/opt/nginx/default /etc/nginx/sites-available/
+
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
+# Change to executeable mode
+RUN chmod a+x /var/opt/background.sh
+RUN chmod a+x /var/opt/start.sh
+
+# Add cron file
+COPY opexwise-cron /etc/cron.d/opexwise-cron
+
+EXPOSE 80
+
+HEALTHCHECK CMD (pgrep -f nginx | pgrep -f background.sh) || exit 1
+
+ENTRYPOINT ["./start.sh"]
 root@opexwise-ui-demo:/opt/newdeployment/api#
