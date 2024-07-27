@@ -1,0 +1,231 @@
+root@opexwise-ui-demo:/opt/newdeployment/api# docker build -t apiopexwise:1.1 .
+[+] Building 14.6s (17/33)                                                                                          docker:default
+ => [internal] load build definition from Dockerfile                                                                          0.0s
+ => => transferring dockerfile: 2.47kB                                                                                        0.0s
+ => WARN: MaintainerDeprecated: Maintainer instruction is deprecated in favor of using label (line 3)                         0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:20.04                                                               0.6s
+ => [internal] load .dockerignore                                                                                             0.0s
+ => => transferring context: 48B                                                                                              0.0s
+ => [internal] load build context                                                                                             0.0s
+ => => transferring context: 25.16kB                                                                                          0.0s
+ => [ 1/29] FROM docker.io/library/ubuntu:20.04@sha256:0b897358ff6624825fb50d20ffb605ab0eaea77ced0adb8c6a4b756513dec6fc       0.0s
+ => CACHED [ 2/29] RUN useradd -ms /bin/bash -u 3333 iopex                                                                    0.0s
+ => CACHED [ 3/29] RUN export DEBIAN_FRONTEND=noninteractive &&     apt-get update && apt-get install -y --no-install-recomm  0.0s
+ => CACHED [ 4/29] RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd  0.0s
+ => CACHED [ 5/29] RUN apt install -y ./wkhtmltox_0.12.6-1.focal_amd64.deb                                                    0.0s
+ => CACHED [ 6/29] RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -                                 0.0s
+ => CACHED [ 7/29] RUN curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-rel  0.0s
+ => CACHED [ 8/29] RUN apt-get update && ACCEPT_EULA=Y apt-get install -y msodbcsql17                                         0.0s
+ => CACHED [ 9/29] RUN apt-get update && apt-get install -y unixodbc-dev                                                      0.0s
+ => CACHED [10/29] RUN apt-get update && apt-get install -y python3-dev libmysqlclient-dev                                    0.0s
+ => CACHED [11/29] WORKDIR /var/opt                                                                                           0.0s
+ => [12/29] COPY . /var/opt                                                                                                   0.1s
+ => ERROR [13/29] RUN python3 -m pip install --upgrade pip && pip install -r requirements.txt                                13.6s
+------
+ > [13/29] RUN python3 -m pip install --upgrade pip && pip install -r requirements.txt:
+1.522 Collecting pip
+1.539   Downloading pip-24.1.2-py3-none-any.whl (1.8 MB)
+1.682 Installing collected packages: pip
+1.683   Attempting uninstall: pip
+1.683     Found existing installation: pip 20.0.2
+1.684     Not uninstalling pip at /usr/lib/python3/dist-packages, outside environment /usr
+1.684     Can't uninstall 'pip'. No files were found to uninstall.
+2.670 Successfully installed pip-24.1.2
+3.120 Collecting asgiref==3.3.4 (from -r requirements.txt (line 1))
+3.134   Downloading asgiref-3.3.4-py3-none-any.whl.metadata (9.1 kB)
+3.181 Collecting certifi==2020.12.5 (from -r requirements.txt (line 2))
+3.185   Downloading certifi-2020.12.5-py2.py3-none-any.whl.metadata (3.0 kB)
+3.354 Collecting cffi==1.14.5 (from -r requirements.txt (line 3))
+3.360   Downloading cffi-1.14.5-cp38-cp38-manylinux1_x86_64.whl.metadata (1.2 kB)
+3.399 Collecting chardet==4.0.0 (from -r requirements.txt (line 4))
+3.404   Downloading chardet-4.0.0-py2.py3-none-any.whl.metadata (3.5 kB)
+3.658 Collecting cryptography==3.4.7 (from -r requirements.txt (line 5))
+3.665   Downloading cryptography-3.4.7-cp36-abi3-manylinux2014_x86_64.whl.metadata (5.1 kB)
+3.701 Collecting datapunt-keycloak-oidc==0.5.1 (from -r requirements.txt (line 6))
+3.706   Downloading datapunt_keycloak_oidc-0.5.1-py3-none-any.whl.metadata (5.3 kB)
+3.826 Collecting Django==3.2 (from -r requirements.txt (line 7))
+3.834   Downloading Django-3.2-py3-none-any.whl.metadata (3.9 kB)
+3.888 Collecting django-cors-headers==3.7.0 (from -r requirements.txt (line 8))
+3.893   Downloading django_cors_headers-3.7.0-py3-none-any.whl.metadata (15 kB)
+3.949 Collecting djangorestframework==3.12.4 (from -r requirements.txt (line 9))
+3.957   Downloading djangorestframework-3.12.4-py3-none-any.whl.metadata (9.9 kB)
+4.115 Collecting drf-dynamic-fields==0.3.1 (from -r requirements.txt (line 10))
+4.122   Downloading drf_dynamic_fields-0.3.1-py2.py3-none-any.whl.metadata (5.6 kB)
+4.159 Collecting fpdf==1.7.2 (from -r requirements.txt (line 11))
+4.164   Downloading fpdf-1.7.2.tar.gz (39 kB)
+4.181   Preparing metadata (setup.py): started
+4.423   Preparing metadata (setup.py): finished with status 'done'
+4.451 Collecting idna==2.10 (from -r requirements.txt (line 12))
+4.456   Downloading idna-2.10-py2.py3-none-any.whl.metadata (9.1 kB)
+4.501 Collecting josepy==1.8.0 (from -r requirements.txt (line 13))
+4.507   Downloading josepy-1.8.0-py2.py3-none-any.whl.metadata (2.0 kB)
+4.549 Collecting mozilla-django-oidc==1.2.4 (from -r requirements.txt (line 14))
+4.555   Downloading mozilla_django_oidc-1.2.4-py2.py3-none-any.whl.metadata (14 kB)
+4.659 Collecting psycopg2-binary==2.8.6 (from -r requirements.txt (line 15))
+4.664   Downloading psycopg2_binary-2.8.6-cp38-cp38-manylinux1_x86_64.whl.metadata (4.4 kB)
+4.710 Collecting pycodestyle==2.7.0 (from -r requirements.txt (line 16))
+4.717   Downloading pycodestyle-2.7.0-py2.py3-none-any.whl.metadata (30 kB)
+4.759 Collecting pycparser==2.20 (from -r requirements.txt (line 17))
+4.765   Downloading pycparser-2.20-py2.py3-none-any.whl.metadata (907 bytes)
+4.808 Collecting pyOpenSSL==20.0.1 (from -r requirements.txt (line 18))
+4.817   Downloading pyOpenSSL-20.0.1-py2.py3-none-any.whl.metadata (6.7 kB)
+4.927 Collecting pytz==2021.1 (from -r requirements.txt (line 19))
+4.933   Downloading pytz-2021.1-py2.py3-none-any.whl.metadata (21 kB)
+4.997 Collecting requests==2.25.1 (from -r requirements.txt (line 20))
+5.003   Downloading requests-2.25.1-py2.py3-none-any.whl.metadata (4.2 kB)
+5.046 Collecting six==1.15.0 (from -r requirements.txt (line 21))
+5.052   Downloading six-1.15.0-py2.py3-none-any.whl.metadata (1.8 kB)
+5.098 Collecting sqlparse==0.4.1 (from -r requirements.txt (line 22))
+5.103   Downloading sqlparse-0.4.1-py3-none-any.whl.metadata (3.4 kB)
+5.171 Collecting urllib3==1.26.4 (from -r requirements.txt (line 23))
+5.177   Downloading urllib3-1.26.4-py2.py3-none-any.whl.metadata (43 kB)
+5.191      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.4/43.4 kB 2.7 MB/s eta 0:00:00
+5.223 Collecting uWSGI==2.0.18 (from -r requirements.txt (line 24))
+5.231   Downloading uwsgi-2.0.18.tar.gz (801 kB)
+5.252      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 801.6/801.6 kB 40.8 MB/s eta 0:00:00
+5.410   Preparing metadata (setup.py): started
+5.621   Preparing metadata (setup.py): finished with status 'done'
+5.658 Collecting nipyapi==0.16.2 (from -r requirements.txt (line 27))
+5.664   Downloading nipyapi-0.16.2-py2.py3-none-any.whl.metadata (20 kB)
+5.907 Collecting numpy==1.21.4 (from -r requirements.txt (line 28))
+5.913   Downloading numpy-1.21.4-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.whl.metadata (2.1 kB)
+6.083 Collecting pandas (from -r requirements.txt (line 29))
+6.090   Downloading pandas-2.0.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (18 kB)
+6.157 Collecting pdfkit==1.0.0 (from -r requirements.txt (line 30))
+6.162   Downloading pdfkit-1.0.0-py3-none-any.whl.metadata (9.3 kB)
+6.215 Collecting openpyxl (from -r requirements.txt (line 31))
+6.220   Downloading openpyxl-3.1.5-py2.py3-none-any.whl.metadata (2.5 kB)
+6.685 Collecting sqlalchemy (from -r requirements.txt (line 32))
+6.692   Downloading SQLAlchemy-2.0.31-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (9.6 kB)
+6.743 Collecting django-background-tasks (from -r requirements.txt (line 33))
+6.750   Downloading django-background-tasks-1.2.5.tar.gz (20 kB)
+6.765   Preparing metadata (setup.py): started
+6.967   Preparing metadata (setup.py): finished with status 'done'
+7.014 Collecting deepdiff==5.6.0 (from -r requirements.txt (line 34))
+7.021   Downloading deepdiff-5.6.0-py3-none-any.whl.metadata (17 kB)
+7.061 Collecting xlrd==2.0.1 (from -r requirements.txt (line 35))
+7.066   Downloading xlrd-2.0.1-py2.py3-none-any.whl.metadata (3.4 kB)
+7.132 Collecting drf-yasg==1.20.0 (from -r requirements.txt (line 36))
+7.135   Downloading drf_yasg-1.20.0-py2.py3-none-any.whl.metadata (14 kB)
+7.229 Collecting pyodbc==4.0.32 (from -r requirements.txt (line 37))
+7.237   Downloading pyodbc-4.0.32.tar.gz (280 kB)
+7.257      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 280.0/280.0 kB 16.0 MB/s eta 0:00:00
+7.299   Preparing metadata (setup.py): started
+7.458   Preparing metadata (setup.py): finished with status 'done'
+7.654 Collecting snowflake-connector-python==2.7.7 (from -r requirements.txt (line 38))
+7.662   Downloading snowflake_connector_python-2.7.7-cp38-cp38-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (41 kB)
+7.674      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 41.7/41.7 kB 3.2 MB/s eta 0:00:00
+7.754 Collecting google-api-core==2.8.2 (from -r requirements.txt (line 39))
+7.759   Downloading google_api_core-2.8.2-py3-none-any.whl.metadata (2.1 kB)
+7.940 Collecting google-api-python-client==2.55.0 (from -r requirements.txt (line 40))
+7.946   Downloading google_api_python_client-2.55.0-py2.py3-none-any.whl.metadata (6.5 kB)
+8.066 Collecting google-auth==2.9.1 (from -r requirements.txt (line 41))
+8.070   Downloading google_auth-2.9.1-py2.py3-none-any.whl.metadata (3.8 kB)
+8.107 Collecting google-auth-httplib2==0.1.0 (from -r requirements.txt (line 42))
+8.114   Downloading google_auth_httplib2-0.1.0-py2.py3-none-any.whl.metadata (2.1 kB)
+8.160 Collecting googleapis-common-protos==1.56.4 (from -r requirements.txt (line 43))
+8.166   Downloading googleapis_common_protos-1.56.4-py2.py3-none-any.whl.metadata (1.3 kB)
+8.248 Collecting mysql-connector-python==8.0.30 (from -r requirements.txt (line 44))
+8.257   Downloading mysql_connector_python-8.0.30-cp38-cp38-manylinux1_x86_64.whl.metadata (1.8 kB)
+8.309 Collecting mysqlclient==2.1.1 (from -r requirements.txt (line 46))
+8.313   Downloading mysqlclient-2.1.1.tar.gz (88 kB)
+8.330      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 88.1/88.1 kB 6.0 MB/s eta 0:00:00
+8.348   Preparing metadata (setup.py): started
+8.584   Preparing metadata (setup.py): finished with status 'done'
+8.815 Collecting delta-sharing==1.0.5 (from -r requirements.txt (line 47))
+8.848   Downloading delta_sharing-1.0.5-py3-none-any.whl.metadata (2.7 kB)
+8.948 Collecting google-cloud-bigquery==3.24.0 (from -r requirements.txt (line 48))
+8.954   Downloading google_cloud_bigquery-3.24.0-py2.py3-none-any.whl.metadata (8.9 kB)
+9.021 Collecting google-cloud-core==2.4.1 (from -r requirements.txt (line 49))
+9.025   Downloading google_cloud_core-2.4.1-py2.py3-none-any.whl.metadata (2.7 kB)
+9.097 Requirement already satisfied: setuptools>=1.0 in /usr/lib/python3/dist-packages (from josepy==1.8.0->-r requirements.txt (line 13)) (45.2.0)
+9.187 Collecting future>=0.18.2 (from nipyapi==0.16.2->-r requirements.txt (line 27))
+9.194   Downloading future-1.0.0-py3-none-any.whl.metadata (4.0 kB)
+9.245 Collecting packaging>=17.1 (from nipyapi==0.16.2->-r requirements.txt (line 27))
+9.250   Downloading packaging-24.1-py3-none-any.whl.metadata (3.2 kB)
+9.502 Collecting lxml>=4.6.2 (from nipyapi==0.16.2->-r requirements.txt (line 27))
+9.510   Downloading lxml-5.2.2-cp38-cp38-manylinux_2_28_x86_64.whl.metadata (3.4 kB)
+9.552 Collecting pysocks>=1.7.1 (from nipyapi==0.16.2->-r requirements.txt (line 27))
+9.556   Downloading PySocks-1.7.1-py3-none-any.whl.metadata (13 kB)
+9.859 Collecting ruamel.yaml==0.16.12 (from nipyapi==0.16.2->-r requirements.txt (line 27))
+9.866   Downloading ruamel.yaml-0.16.12-py2.py3-none-any.whl.metadata (35 kB)
+9.922 Collecting docker>=2.5.1 (from nipyapi==0.16.2->-r requirements.txt (line 27))
+9.926   Downloading docker-7.1.0-py3-none-any.whl.metadata (3.8 kB)
+9.966 Collecting xmltodict>=0.12.0 (from nipyapi==0.16.2->-r requirements.txt (line 27))
+9.972   Downloading xmltodict-0.13.0-py2.py3-none-any.whl.metadata (7.7 kB)
+10.01 Collecting ordered-set==4.0.2 (from deepdiff==5.6.0->-r requirements.txt (line 34))
+10.02   Downloading ordered-set-4.0.2.tar.gz (10 kB)
+10.04   Preparing metadata (setup.py): started
+10.22   Preparing metadata (setup.py): finished with status 'done'
+10.27 Collecting coreapi>=2.3.3 (from drf-yasg==1.20.0->-r requirements.txt (line 36))
+10.28   Downloading coreapi-2.3.3-py2.py3-none-any.whl.metadata (1.0 kB)
+10.32 Collecting coreschema>=0.0.4 (from drf-yasg==1.20.0->-r requirements.txt (line 36))
+10.32   Downloading coreschema-0.0.4.tar.gz (10 kB)
+10.34   Preparing metadata (setup.py): started
+10.53   Preparing metadata (setup.py): finished with status 'done'
+10.58 Collecting inflection>=0.3.1 (from drf-yasg==1.20.0->-r requirements.txt (line 36))
+10.58   Downloading inflection-0.5.1-py2.py3-none-any.whl.metadata (1.7 kB)
+10.62 Collecting uritemplate>=3.0.0 (from drf-yasg==1.20.0->-r requirements.txt (line 36))
+10.63   Downloading uritemplate-4.1.1-py2.py3-none-any.whl.metadata (2.9 kB)
+10.70 Collecting asn1crypto<2.0.0,>0.24.0 (from snowflake-connector-python==2.7.7->-r requirements.txt (line 38))
+10.71   Downloading asn1crypto-1.5.1-py2.py3-none-any.whl.metadata (13 kB)
+10.82 Collecting charset-normalizer~=2.0.0 (from snowflake-connector-python==2.7.7->-r requirements.txt (line 38))
+10.83   Downloading charset_normalizer-2.0.12-py3-none-any.whl.metadata (11 kB)
+10.88 Collecting oscrypto<2.0.0 (from snowflake-connector-python==2.7.7->-r requirements.txt (line 38))
+10.89   Downloading oscrypto-1.3.0-py2.py3-none-any.whl.metadata (15 kB)
+11.05 Collecting pycryptodomex!=3.5.0,<4.0.0,>=3.2 (from snowflake-connector-python==2.7.7->-r requirements.txt (line 38))
+11.05   Downloading pycryptodomex-3.20.0-cp35-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.4 kB)
+11.10 Collecting pyjwt<3.0.0 (from snowflake-connector-python==2.7.7->-r requirements.txt (line 38))
+11.11   Downloading PyJWT-2.8.0-py3-none-any.whl.metadata (4.2 kB)
+11.35 Collecting protobuf<5.0.0dev,>=3.15.0 (from google-api-core==2.8.2->-r requirements.txt (line 39))
+11.36   Downloading protobuf-4.25.4-cp37-abi3-manylinux2014_x86_64.whl.metadata (541 bytes)
+11.44 Collecting httplib2<1dev,>=0.15.0 (from google-api-python-client==2.55.0->-r requirements.txt (line 40))
+11.45   Downloading httplib2-0.22.0-py3-none-any.whl.metadata (2.6 kB)
+11.55 Collecting cachetools<6.0,>=2.0.0 (from google-auth==2.9.1->-r requirements.txt (line 41))
+11.56   Downloading cachetools-5.4.0-py3-none-any.whl.metadata (5.3 kB)
+11.61 Collecting pyasn1-modules>=0.2.1 (from google-auth==2.9.1->-r requirements.txt (line 41))
+11.61   Downloading pyasn1_modules-0.4.0-py3-none-any.whl.metadata (3.4 kB)
+11.66 Collecting rsa<5,>=3.1.4 (from google-auth==2.9.1->-r requirements.txt (line 41))
+11.67   Downloading rsa-4.9-py3-none-any.whl.metadata (4.2 kB)
+11.71 Collecting protobuf<5.0.0dev,>=3.15.0 (from google-api-core==2.8.2->-r requirements.txt (line 39))
+11.72   Downloading protobuf-3.20.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl.metadata (698 bytes)
+11.84 Collecting pyarrow>=4.0.0 (from delta-sharing==1.0.5->-r requirements.txt (line 47))
+11.85   Downloading pyarrow-17.0.0-cp38-cp38-manylinux_2_28_x86_64.whl.metadata (3.3 kB)
+11.90 Collecting fsspec>=0.7.4 (from delta-sharing==1.0.5->-r requirements.txt (line 47))
+11.91   Downloading fsspec-2024.6.1-py3-none-any.whl.metadata (11 kB)
+12.36 Collecting aiohttp (from delta-sharing==1.0.5->-r requirements.txt (line 47))
+12.37   Downloading aiohttp-3.9.5-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.5 kB)
+12.52 Collecting yarl>=1.6.0 (from delta-sharing==1.0.5->-r requirements.txt (line 47))
+12.53   Downloading yarl-1.9.4-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (31 kB)
+12.56 INFO: pip is looking at multiple versions of google-cloud-bigquery to determine which version is compatible with other requirements. This could take a while.
+12.56 ERROR: Cannot install -r requirements.txt (line 40), -r requirements.txt (line 48) and google-api-core==2.8.2 because these package versions have conflicting dependencies.
+12.57
+12.57 The conflict is caused by:
+12.57     The user requested google-api-core==2.8.2
+12.57     google-api-python-client 2.55.0 depends on google-api-core!=2.0.*, !=2.1.*, !=2.2.*, !=2.3.0, <3.0.0dev and >=1.31.5
+12.57     google-cloud-bigquery 3.24.0 depends on google-api-core!=2.0.*, !=2.1.*, !=2.10.*, !=2.2.*, !=2.3.*, !=2.4.*, !=2.5.*, !=2.6.*, !=2.7.*, !=2.8.*, !=2.9.*, <3.0.0dev and >=1.34.1
+12.57
+12.57 To fix this you could try to:
+12.57 1. loosen the range of package versions you've specified
+12.57 2. remove package versions to allow pip to attempt to solve the dependency conflict
+12.57
+12.57 ERROR: ResolutionImpossible: for help visit https://pip.pypa.io/en/latest/topics/dependency-resolution/#dealing-with-dependency-conflicts
+------
+
+ 6 warnings found (use --debug to expand):
+ - MaintainerDeprecated: Maintainer instruction is deprecated in favor of using label (line 3)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 58)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 60)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 61)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 62)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 63)
+Dockerfile:54
+--------------------
+  52 |     COPY . /var/opt
+  53 |
+  54 | >>> RUN python3 -m pip install --upgrade pip && pip install -r requirements.txt
+  55 |
+  56 |     # Change to non-root privilege
+--------------------
+ERROR: failed to solve: process "/bin/sh -c python3 -m pip install --upgrade pip && pip install -r requirements.txt" did not complete successfully: exit code: 1
+root@opexwise-ui-demo:/opt/newdeployment/api#
