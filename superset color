@@ -1,0 +1,154 @@
+#from keycloack_securtiy_manager  import  OIDCSecurityManager
+#from flask_appbuilder.security.manager import AUTH_OID, AUTH_REMOTE_USER, AUTH_DB, AUTH_LDAP, AUTH_OAUTH
+import logging
+import os
+from datetime import timedelta
+from cachelib.file import FileSystemCache
+from celery.schedules import crontab
+from typing import Optional
+'''
+---------------------------KEYCLOACK ----------------------------
+'''
+#curr  =  os.path.abspath(os.getcwd())
+#AUTH_TYPE = AUTH_OID
+#SECRET_KEY: 'opexwisesupersetintegration'
+#OIDC_CLIENT_SECRETS =  curr + '/pythonpath/client_secret.json'
+#OIDC_ID_TOKEN_COOKIE_SECURE = False
+#OIDC_REQUIRE_VERIFIED_EMAIL = False
+#OIDC_OPENID_REALM: 'opexwise'
+#OIDC_INTROSPECTION_AUTH_METHOD: 'client_secret_post'
+#CUSTOM_SECURITY_MANAGER = OIDCSecurityManager
+#AUTH_USER_REGISTRATION = False
+#AUTH_USER_REGISTRATION_ROLE = 'Alpha'
+'''
+--------------------------------------------------------------
+'''
+
+ENABLE_CORS = True
+
+HTTP_HEADERS={}
+PREFERRED_URL_SCHEME = 'https'
+SUPERSET_WEBSERVER_PROTOCOL = "https"
+
+PUBLIC_ROLE_LIKE = "Gamma"
+
+SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_HTTPONLY = False
+
+WTF_CSRF_ENABLED = False
+SUPERSET_TIMEOUT =1000
+SUPERSET_WEBSERVER_TIMEOUT =1000
+SQLLAB_TIMEOUT =1000
+
+#Alert
+ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
+
+FEATURE_FLAGS = {
+    "DASHBOARD_NATIVE_FILTERS": True,
+    "DASHBOARD_CROSS_FILTERS": True,
+    "DASHBOARD_NATIVE_FILTERS_SET": True,
+    "ALERT_REPORTS": True,
+    "ENABLE_TEMPLATE_PROCESSING": True,
+    "DASHBOARD_RBAC": True,
+    "HORIZONTAL_FILTER_BAR": True
+}
+def get_env_variable(var_name: str, default: Optional[str] = None) -> str:
+    """Get the environment variable or raise exception."""
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        if default is not None:
+            return default
+        else:
+            error_msg = "The environment variable {} was missing, abort...".format(
+                var_name
+            )
+            raise EnvironmentError(error_msg)
+
+
+
+REDIS_HOST = get_env_variable("REDIS_HOST")
+REDIS_PORT = get_env_variable("REDIS_PORT")
+REDIS_CELERY_DB = get_env_variable("REDIS_CELERY_DB", "0")
+REDIS_RESULTS_DB = get_env_variable("REDIS_RESULTS_DB", "1")
+
+RESULTS_BACKEND = FileSystemCache("/app/superset_home/sqllab")
+
+
+class CeleryConfig(object):
+    BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_CELERY_DB}"
+    CELERY_IMPORTS = ("superset.sql_lab", "superset.tasks")
+    CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_RESULTS_DB}"
+    CELERYD_LOG_LEVEL = "DEBUG"
+    CELERYD_PREFETCH_MULTIPLIER = 1
+    CELERY_ACKS_LATE = False
+    CELERYBEAT_SCHEDULE = {
+        "reports.scheduler": {
+            "task": "reports.scheduler",
+            "schedule": crontab(minute="*", hour="*"),
+        },
+        "reports.prune_log": {
+            "task": "reports.prune_log",
+            "schedule": crontab(minute=10, hour=0),
+        },
+    }
+CELERY_CONFIG = CeleryConfig
+CUSTOM_COLOR_SCHEME = [
+        '#003153',
+        '#000080',
+        '#0000CD',
+        '#4169E1',
+        '#1E90FF',
+        '#6495ED',
+        '#B0E0E6',
+        '#89CFF0',
+        '#87CEEB',
+        ]
+FEATURE_FLAGS = {
+        "DASHBORAD_NATIVE_FILTERS": True,
+        "DASHBORAD_CROSS_FILTERS": True,
+        }
+EXTRA_CATEGORICAL_COLOR_SCHEMES = [
+        {
+            "id": "custom_colors",
+            "description": "My Custom Colors",
+            "label": "Custom Colors",
+            "colors": CUSTOM_COLOR_SCHEME,
+            },
+        ]
+
+
+CELERY_CONFIG = CeleryConfig
+
+SMTP_HOST = "smtp.gmail.com" # change to your host
+SMTP_PORT = 587 # your port, e.g. 587
+SMTP_STARTTLS = True
+SMTP_SSL_SERVER_AUTH = True # If your using an SMTP server with a valid certificate
+SMTP_SSL = False
+SMTP_USER = "arlo.opexwise@iopex.com" # use the empty string "" if using an unauthenticated SMTP server
+SMTP_PASSWORD = "gbxznnlwvvycjdhn" # use the empty string "" if using an unauthenticated SMTP server
+SMTP_MAIL_FROM = "arlo.opexwise@iopex.com"
+EMAIL_REPORTS_SUBJECT_PREFIX = "[Superset] " # optional - overwrites default value in config.py of "[Report] "
+SQLLAB_CTAS_NO_LIMIT = True
+
+WEBDRIVER_TYPE = "chrome"
+WEBDRIVER_OPTION_ARGS = [
+    "--force-device-scale-factor=2.0",
+    "--high-dpi-support=2.0",
+    "--headless",
+    "--disable-gpu",
+    "--disable-dev-shm-usage",
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-extensions",
+]
+
+WEBDRIVER_BASEURL = "http://10.10.50.13:8088/"
+
+WEBDRIVER_BASEURL_USER_FRIENDLY = "https://arlo.opexwise.ai"
+
+LOGIN_REDIRECT_URL = '/login'
+DISABLED_NAVIGATION_GROUPS=['Dashboards','Charts','Datasets']
+STATIC_FILES_EXCLUDE_LIST = ['static/assets/package.json','static/assets/manifest.json']
+root@textract:/var/opt# 
